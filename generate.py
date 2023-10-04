@@ -38,16 +38,45 @@ if args.todo == "create_playlist":
 elif args.todo == "scan_folder":
     found_albums_list = []
 
-    for currentpath, folders, files in os.walk(args.root_folder, topdown=False):
-        # print(currentpath)
-        if files:
-            print(os.path.basename(currentpath))
-        # print(folders)
-        # print(files)
-        # if folders:
-        #     for each in folders:
-        #         if each not in found_albums_list:
-        #             found_albums_list.append(each)
+
+# def _walk(path, depth):
+#     """Recursively list files and directories up to a certain depth"""
+#     depth -= 1
+#     with os.scandir(path) as p:
+#         for entry in p:
+#             print(depth)
+#             yield entry.path
+#             if entry.is_dir() and depth > 0:
+#                 yield from _walk(entry.path, depth)
+
+def _walk(path, depth):
+    """Recursively list files and directories up to a certain depth"""
+    depth -= 1
+    with os.scandir(path) as p:
+        for entry in p:
+            # print(depth)
+            if entry.is_dir() and depth == 1:
+                yield from _walk(entry.path, depth)
+            # else:
+                # yield from entry.path
+
+
+for each in _walk(args.root_folder, 2):
+    print(each)
+
+# for each in os.scandir(args.root_folder):
+#     print(each)
+
+# for currentpath, folders, files in os.walk(args.root_folder, topdown=False):
+# print(currentpath)
+# if files:
+# print(os.path.basename(currentpath))
+# print(folders)
+# print(files)
+# if folders:
+#     for each in folders:
+#         if each not in found_albums_list:
+#             found_albums_list.append(each)
 print(found_albums_list)
 # print(files)
 # for file in files:
