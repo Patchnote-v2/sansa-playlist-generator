@@ -26,11 +26,6 @@ class Item(models.Model):
                                      related_name="artists_set",
                                      related_query_name="artist")
 
-    # If type == ALBUM, this must be empty
-    albums = models.ManyToManyField("Item",
-                                    related_name="albums_set",
-                                    related_query_name="album")
-
     def __str__(self):
         if self.type and self.name:
             return "{0} - {1}".format(self.type, self.name)
