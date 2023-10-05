@@ -22,6 +22,7 @@ class Item(models.Model):
 
     # If type == ARTIST, this must be empty
     artists = models.ManyToManyField("Item",
+                                     blank=True,
                                      related_name="artists_set",
                                      related_query_name="artist")
 
@@ -31,12 +32,18 @@ class Item(models.Model):
                                     related_query_name="album")
 
     def __str__(self):
-        return self.name
+        if self.type and self.name:
+            return "{0} - {1}".format(self.type, self.name)
+        else:
+            return str(self.id)
 
 
 class Playlist(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Playlist of {0}".format(self.user.username)
 
 
 class PlaylistRow(models.Model):
@@ -57,3 +64,6 @@ class PlaylistRow(models.Model):
                              related_query_name="item")
 
     amount = models.IntegerField(default=0, blank=False, null=True)
+
+    def __str__(self):
+        return "{0} row of {1}".format(self.item.type, self.playlist.user.username)
