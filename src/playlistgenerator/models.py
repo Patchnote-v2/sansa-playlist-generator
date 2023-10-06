@@ -28,7 +28,7 @@ class Item(models.Model):
 
     def __str__(self):
         if self.type and self.name:
-            return "{0} - {1}".format(self.type, self.name)
+            return "{0} - '{1}'".format(self.type, self.name)
         else:
             return str(self.id)
 
@@ -61,4 +61,4 @@ class PlaylistRow(models.Model):
     amount = models.IntegerField(default=0, blank=False, null=True)
 
     def __str__(self):
-        return "{0} row of {1}".format(self.item.type, self.playlist.user.username)
+        return "{0} row of {1}".format(self.item, self.playlist.user.username)
