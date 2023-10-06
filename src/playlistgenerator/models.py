@@ -32,6 +32,9 @@ class Item(models.Model):
         else:
             return str(self.id)
 
+    def artists_as_string(self):
+        return ", ".join(each.name for each in self.artists.all())
+
 
 class Playlist(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
