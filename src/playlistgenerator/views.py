@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .serializers import PlaylistRowSerializer
+from .models import PlaylistRow
 
-# Create your views here.
+
+class PlaylistRowView(viewsets.ModelViewSet):
+    serializer_class = PlaylistRowSerializer
+    queryset = PlaylistRow.objects.all()
