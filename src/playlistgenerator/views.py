@@ -1,8 +1,8 @@
 from rest_framework import viewsets
-from .serializers import PlaylistRowSerializer
-from .models import PlaylistRow
+from .serializers import PlaylistSerializer
+from .models import Playlist
 
 
-class PlaylistRowView(viewsets.ModelViewSet):
-    serializer_class = PlaylistRowSerializer
-    queryset = PlaylistRow.objects.all()
+class PlaylistView(viewsets.ModelViewSet):
+    serializer_class = PlaylistSerializer
+    queryset = Playlist.objects.all()

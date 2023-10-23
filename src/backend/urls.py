@@ -20,7 +20,7 @@ from rest_framework import routers
 from playlistgenerator import views
 
 router = routers.DefaultRouter()
-router.register(r'playlistrow', views.PlaylistRowView, 'playlistrow')
+router.register(r'playlist', views.PlaylistView, 'playlist')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
