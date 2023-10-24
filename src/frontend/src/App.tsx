@@ -47,34 +47,12 @@ class App extends Component {
         this.state = {
             viewCompleted: false,
             playlistRows: [...playlist.rows],
-            removed: null,
+            removed: [],
             userID: playlist.user,
         }
         
         this._onDragEnd = this._onDragEnd.bind(this);
     }
-    
-    // _dragStart = (event) => {
-    //     this.dragItem.current = event.target.id;
-    // }
-    
-    // _dragEnter = (event) => {
-    //     this.dragOverItem.current = event.currentTarget.id;
-    // }
-    
-    // _dragEnd = (event) => {
-    //     // Get current state
-    //     const copyListItems = [...this.state.playlistRows];
-    //     const dragItemContent = copyListItems[this.dragItem.current];
-        
-    //     // Remove then reinsert current row
-    //     copyListItems.splice(this.dragItem.current, 1);
-    //     copyListItems.splice(this.dragOverItem.current, 0, dragItemContent);
-        
-    //     this.dragItem.current = null;
-    //     this.dragOverItem.current = null;
-    //     this.setState({ playlistRows: copyListItems });
-    // }
     
     _reorder(list, startIndex, endIndex) {
         const result = Array.from(list);
@@ -120,24 +98,28 @@ class App extends Component {
     }
     
     _removeRow(event, index) {
-        const result = Array.from(this.state.playlistRows);
-        const [removed] = result.splice(index, 1);
+        const rows = Array.from(this.state.playlistRows);
+        const [removed] = rows.splice(index, 1);
+        
+        let stack = [...this.state.removed];
+        stack.push({index: index, data: removed});
         
         this.setState({
-            playlistRows: result,
-            removed: {index: index, data: removed}
+            playlistRows: rows,
+            removed: stack
         });
     }
     
     _undoRemove(event) {
-        if (this.state.removed) {
+        if (this.state.removed.length > 0) {
             const result = Array.from(this.state.playlistRows);
-            const removed = this.state.removed.data;
-            result.splice(this.state.removed.index, 0, removed);
+            let removed = this.state.removed;
+            let previous = removed.pop().data;
+            result.splice(removed.index, 0, previous);
             
             this.setState({
                 playlistRows: result,
-                removed: null,
+                removed: removed,
             })
         }
     }
