@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+// https://stackoverflow.com/a/51775832/2368714
+// Default Bootstrap is flex: 1 1 auto; which is terrible and doesn't make even columns
+.flex-even {
+    flex: 1 0 0;
+}
+
+.test {
+    border-top: 5px solid black;
+}
+
+.list-item {
+    background-color: #BDBDBD;
+    margin: 0 0 8px 0;
+    padding: 16;
+    user-select: none;
+}
+
+.list-item-active {
+    background-color: #FFFFFF;
+}
+
+.list-background {
+    background-color: #DDDDDD;
+    padding: 8px;
+    width: auto;
+}
+
+.list-background-active {
+    // background-color: #0099FF;
+}
