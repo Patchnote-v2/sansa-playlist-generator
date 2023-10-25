@@ -12,7 +12,7 @@ class Item(models.Model):
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=256, blank=False, null=True)
+    name = models.CharField(max_length=512, blank=False, null=True)
 
     type = models.CharField(max_length=16,
                             choices=TYPE_CHOICES,
@@ -34,6 +34,18 @@ class Item(models.Model):
 
     def artists_as_string(self):
         return ", ".join(each.name for each in self.artists.all())
+
+
+# Limitation of this means that artists can't be attributed to a specific song
+class Song(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=512, blank=False, null=True)
+    album = models.ForeignKey(Item,
+                              on_delete=models.CASCADE,
+                              blank=False,
+                              null=True,
+                              related_name="albums",
+                              related_query_name="album")
 
 
 class Playlist(models.Model):
