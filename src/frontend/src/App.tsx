@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import Walker from "./Walker.tsx";
 
 const playlist = {
     user: 1,
@@ -166,6 +167,7 @@ class App extends Component {
     render() {
         return (
             <main>
+                <Walker />
                 {this.renderRows()}
             </main>
         );
