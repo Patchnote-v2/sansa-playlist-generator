@@ -2,16 +2,10 @@ import React, { Component, useId } from "react";
 import ReactDOM from "react-dom";
 // import classNames from "classnames";
 
-class Walker extends Component {
-    constructor(props: props) {
-        super(props);
-        
-        this.state = {
-            structure: null
-        }
-    }
+function Walker(props) {
+    const [structure, setStructure] = useState([]);
     
-    _handleSubmit(event) {
+    const _handleSubmit = (event) => {
         // Prevent the browser from reloading the page
         event.preventDefault();
         
@@ -46,11 +40,12 @@ class Walker extends Component {
             structure.artists[artist][album].push(song);
             
         }
-            console.log(structure);
+        
+        
+        console.log(structure);
     }
     
-    render() {
-        return (
+    return (
             <>
             <form method="POST" onSubmit={this._handleSubmit}>
             <label htmlFor="getDirectories">Get Directories</label>
@@ -59,7 +54,6 @@ class Walker extends Component {
             </form>
             </>
         );
-    }
 }
 
 export default Walker;

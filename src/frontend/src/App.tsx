@@ -37,25 +37,15 @@ const playlist = {
     ]
 };
 
-class App extends Component {
-    constructor(props: props) {
-        super(props);
-        this.dragItem = React.createRef();
-        this.dragOverItem = React.createRef();
-        
-        this.grid = 8;
-        
-        this.state = {
-            viewCompleted: false,
-            playlistRows: [...playlist.rows],
-            removed: [],
-            userID: playlist.user,
-        }
-        
-        this._onDragEnd = this._onDragEnd.bind(this);
-    }
+
+function App(props) {
+    const grid = 8;
     
-    _reorder(list, startIndex, endIndex) {
+    const [playlistRows, setPlaylistRows] = useState([...playlistRows]);
+    const [removed, setRemoved] = useState([]);
+    const [userID, setUserID] = useState(playlist.user);
+    
+    const _reorder = (list, startIndex, endIndex) => {
         const result = Array.from(list);
         const [removed] = result.splice(startIndex, 1);
         result.splice(endIndex, 0, removed);
@@ -63,7 +53,8 @@ class App extends Component {
         return result;
     }
     
-    _getItemClasses(isDragging, draggableStyle) {
+    
+    const _getItemClasses = (isDragging, draggableStyle) => {
         return classNames({
             "list-item": true,
             "list-item-active": isDragging,
@@ -74,7 +65,8 @@ class App extends Component {
         })
     }
     
-    _getListClasses(isDraggingOver) {
+    
+    const _getListClasses = (isDraggingOver) => {
         return classNames({
             "list-background": true,
             "list-background-active": isDraggingOver,
@@ -82,7 +74,8 @@ class App extends Component {
         })
     }
     
-    _onDragEnd(result) {
+    
+    const _onDragEnd = (result) => {
         if (!result.destination) {
             return;
         }
@@ -98,7 +91,8 @@ class App extends Component {
         });
     }
     
-    _removeRow(event, index) {
+    
+    const _removeRow = (event, index) => {
         const rows = Array.from(this.state.playlistRows);
         const [removed] = rows.splice(index, 1);
         
@@ -111,7 +105,7 @@ class App extends Component {
         });
     }
     
-    _undoRemove(event) {
+    const _undoRemove = (event) => {
         if (this.state.removed.length > 0) {
             const result = Array.from(this.state.playlistRows);
             let removed = this.state.removed;
@@ -125,7 +119,7 @@ class App extends Component {
         }
     }
     
-    renderRows() {
+    const renderRows = () => {
         return (
             <>
             <button onClick={this._undoRemove.bind(this)}>Undo Remove</button>
@@ -164,14 +158,13 @@ class App extends Component {
         );
     };
     
-    render() {
-        return (
+    
+    return (
             <main>
                 <Walker />
                 {this.renderRows()}
             </main>
         );
-    }
 }
 
 export default App;
