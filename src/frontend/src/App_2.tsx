@@ -1,4 +1,4 @@
-import React, { Component, useState, setState } from "react";
+import React, { Component, useState } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
@@ -86,7 +86,7 @@ function App(props) {
             result.destination.index
         );
         
-        setState({
+        this.setState({
             playlistRows: items
         });
     }
@@ -99,7 +99,7 @@ function App(props) {
         let stack = [...this.state.removed];
         stack.push({index: index, data: removed});
         
-        setState({
+        this.setState({
             playlistRows: rows,
             removed: stack
         });
@@ -112,7 +112,7 @@ function App(props) {
             let previous = removed.pop().data;
             result.splice(removed.index, 0, previous);
             
-            setState({
+            this.setState({
                 playlistRows: result,
                 removed: removed,
             })
@@ -120,38 +120,35 @@ function App(props) {
     }
     
     const renderRows = () => {
+        console.log(this)
         return (
             <>
-            <button onClick={_undoRemove.bind(this)}>Undo Remove</button>
-            <DragDropContext onDragEnd={_onDragEnd}>
+            <button onClick={this._undoRemove.bind(this)}>Undo Remove</button>
+            <DragDropContext onDragEnd={this._onDragEnd}>
                 <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
                         <ul
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className={_getListClasses(snapshot.isDraggingOver)}
+                            className={this._getListClasses(snapshot.isDraggingOver)}
                         >
-                        {Object.entries(playlistRows).map(([key, value]) => {
-                            console.log(key);
-                            console.log(value);
-                            return ( <>
-                            
-                            <Draggable key={value.item.id} draggableId={value.item.id} index={key}>
+                        {this.state.playlistRows.map((each, index) => (
+                            <Draggable key={each.item.id} draggableId={each.item.id} index={index}>
                             {(provided, snapshot) => (
                                 <li ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        className={_getItemClasses(snapshot.isDragging, provided.draggableProps.style)}
+                                        className={this._getItemClasses(snapshot.isDragging, provided.draggableProps.style)}
                                 >
-                                    <button key={value.item.id} onClick={(e) => _removeRow(e, key)}>X</button>
-                                    <span className="flex-even pe-none">{value.item.type}</span>
-                                    <span className="flex-even pe-none">{value.item.name}</span>
-                                    <span className="flex-even pe-none">{value.item.artists_as_string}</span>
-                                    <input type="number" defaultValue={value.amount} className="flex-even"/>
+                                    <button key={each.item.id} onClick={(e) => this._removeRow(e, index)}>X</button>
+                                    <span className="flex-even pe-none">{each.item.type}</span>
+                                    <span className="flex-even pe-none">{each.item.name}</span>
+                                    <span className="flex-even pe-none">{each.item.artists_as_string}</span>
+                                    <input type="number" defaultValue={each.amount} className="flex-even"/>
                                 </li>
                             )}
                             </Draggable>
-                        </>)})}
+                        ))}
                         {provided.placeholder}
                         </ul>
                      )}
@@ -165,7 +162,7 @@ function App(props) {
     return (
             <main>
                 <Walker />
-                {renderRows()}
+                {/*{this.renderRows()}*/}
             </main>
         );
 }

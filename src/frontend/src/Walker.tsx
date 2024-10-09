@@ -1,57 +1,20 @@
-import React, { Component, useId } from "react";
+import React, { Component, useId, useState } from "react";
 import ReactDOM from "react-dom";
 // import classNames from "classnames";
 
 function Walker(props) {
     const [structure, setStructure] = useState([]);
     
-    const _handleSubmit = (event) => {
-        // Prevent the browser from reloading the page
-        event.preventDefault();
-        
-        // Read the form data
-        const form = event.target;
-        const formData = new FormData(form);
-
-        // You can pass formData as a fetch body directly:
-        // fetch('/some-api', { method: form.method, body: formData });
-        
-        let structure = {artists: {}}
-        
-        for (const [key, value] of formData.entries()) {
-            let separated = value.webkitRelativePath.split('/');
-            
-            // todo: handle directory listings that don't follow the expected structure
-            if (separated.length > 4) {
-                console.log(separated);
-            }
-            
-            let artist = separated[1];
-            let album = separated[2];
-            let song = separated[3];
-            console.log(song);
-            
-            if (!structure.artists.hasOwnProperty(artist)) {
-                structure.artists[artist] = [];
-            }
-            if (!structure.artists[artist].hasOwnProperty(album)) {
-                structure.artists[artist][album] = [];
-            }
-            structure.artists[artist][album].push(song);
-            
-        }
-        
-        
-        console.log(structure);
+    const _handleFiles = (event) => {
+        event.target.files[0].text().then((data) => {
+            console.log(JSON.parse(data));
+        });
     }
     
     return (
             <>
-            <form method="POST" onSubmit={this._handleSubmit}>
-            <label htmlFor="getDirectories">Get Directories</label>
-            <input type="file" name="getDirectories" webkitdirectory="" directory="" />
-            <button type="submit">Submit</button>
-            </form>
+            <label htmlFor="getStructure">Upload JSON File:</label>
+            <input type="file" name="getStructure" accept=".json" onChange={_handleFiles} /><br />
             </>
         );
 }
